@@ -1,0 +1,28 @@
+# This is the control file for Travis continuous integration system.
+#
+# It is used automatically for the repositories on Github if it's found in the
+# root directory of the project.
+language: cpp
+
+compiler:
+    - clang
+    - gcc
+
+sudo: false
+
+env:
+    - wxCONFIGURE_FLAGS=""
+    - wxCONFIGURE_FLAGS="-DBUILD_SHARED_LIBS=ON"
+
+before_install:
+  - curl -L http://www.cmake.org/files/v3.2/cmake-3.2.2-Linux-x86_64.tar.gz | tar -xz
+  - export PATH="`pwd`/cmake-3.2.2-Linux-x86_64/bin:${PATH}"
+  - which cmake
+  - cmake --version
+
+install:
+    - mkdir bin
+    - cd bin
+
+script:
+    - cmake $wxCONFIGURE_FLAGS .. && cmake --build .

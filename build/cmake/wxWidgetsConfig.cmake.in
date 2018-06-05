@@ -1,0 +1,66 @@
+# - Config file for the wxWidgets package
+# It defines the following variables
+#
+#   wxWidgets_INCLUDE_DIRS     - Include directories for WIN32
+#                                i.e., where to find "wx/wx.h" and
+#                                "wx/setup.h"
+#   wxWidgets_LIBRARIES        - Path to the wxWidgets libraries.
+#   wxWidgets_DEFINITIONS      - Contains defines required to compile/link
+#                                against WX, e.g. WXUSINGDLL
+#   wxWidgets_USE_FILE         - Convenience include file.
+
+@PACKAGE_INIT@
+
+#set_and_check(wxWidgets_INCLUDE_DIRS "@PACKAGE_INSTALL_INCLUDE_DIRS@")
+
+if(@WXBUILD_SYSTEM_ZLIB@)
+  find_package(ZLIB CONFIG)
+endif()
+
+if(@WXBUILD_SYSTEM_PNG@)
+  find_package(PNG CONFIG)
+endif()
+
+if(@WXBUILD_SYSTEM_JPEG@)
+  find_package(JPEG CONFIG)
+endif()
+
+if(@WXBUILD_SYSTEM_TIFF@)
+  find_package(TIFF CONFIG)
+endif()
+
+if(@WXBUILD_SYSTEM_EXPAT@)
+  find_package(EXPAT CONFIG)
+endif()
+
+if(NOT wxWidgets_FIND_COMPONENTS)
+  set(wxWidgets_FIND_COMPONENTS core base)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/wxWidgetsTargets.cmake")
+
+set(wxWidgets_USE_FILE UsewxWidgets)
+
+set(_POSSIBLE_TARGETS
+  wxWidgets::wxzlib wxWidgets::wxpng wxWidgets::wxjpeg wxWidgets::wxtiff wxWidgets::expat wxWidgets::wxregex wxWidgets::wxscintilla wxWidgets::adv wxWidgets::aui wxWidgets::base wxWidgets::core wxWidgets::gl wxWidgets::html wxWidgets::media wxWidgets::net wxWidgets::propgrid wxWidgets::qa wxWidgets::ribbon wxWidgets::richtext wxWidgets::stc wxWidgets::webview wxWidgets::xml wxWidgets::xrc)
+
+set(wxWidgets_LIBRARIES)
+foreach(_POSSIBLE_TARGET ${_POSSIBLE_TARGETS})
+  if(TARGET ${_POSSIBLE_TARGET})
+    # First remove ones with wx-prefix
+    string(REPLACE wxWidgets::wx "" _COMPONENT_NAME ${_POSSIBLE_TARGET})
+    string(REPLACE wxWidgets:: "" _COMPONENT_NAME ${_COMPONENT_NAME})
+    if (";${wxWidgets_FIND_COMPONENTS};" MATCHES ";${_COMPONENT_NAME};")
+      list(APPEND wxWidgets_LIBRARIES ${_POSSIBLE_TARGET})
+      set(wxWidgets_${_COMPONENT_NAME}_FOUND TRUE)
+    endif()
+  endif()
+endforeach()
+unset(_POSSIBLE_TARGETS)
+unset(_POSSIBLE_TARGET)
+unset(_COMPONENT_NAME)
+
+set(wxWidgets_INCLUDE_DIRS)
+set(wxWidgets_DEFINITIONS)
+
+check_required_components(wxWidgets)
