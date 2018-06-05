@@ -1,18 +1,10 @@
-# We use the standard library (e.g. FindXXX() macros) and syntax of 2.8.x
-# Most platforms already include 2.8.x, if not then you should compile and
-# install CMake yourself.
-cmake_minimum_required(VERSION 2.8)
-# Remove when CMake >= 2.8.4 is required. This hack is required here because
-# versions prior to 2.8.4 assumed declared the WIN32 constant on Cygwin. It
-# does not anymore, but since we request 2.8+ (and not 2.8.4+) there is an
-# ambiguity: do we want the old or new behaviour ? A: we want the new one.
-set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+cmake_minimum_required(VERSION 3.11.0)
 
 include(${CMAKE_CURRENT_LIST_DIR}/build/cmake/CMakeModules/HunterGate.cmake)
 
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.14.9.tar.gz"
-    SHA1 "92ce2ee158a653080854366313e5be7230399aca"
+    URL "https://github.com/Walter1337/hunter/archive/v0.22.3.tar.gz"
+    SHA1 "70a82073d9fb36d5ab95ecd92abe8c426db431cb"
 )
 
 # This declares the project (solution in terms of MSVC) we're working on,
