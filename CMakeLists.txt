@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.11.0)
 include(${CMAKE_CURRENT_LIST_DIR}/build/cmake/CMakeModules/HunterGate.cmake)
 
 HunterGate(
-    URL "https://github.com/Walter1337/hunter/archive/v0.22.3.tar.gz"
-    SHA1 "70a82073d9fb36d5ab95ecd92abe8c426db431cb"
+    URL "https://github.com/Walter1337/hunter/archive/v0.22.4.tar.gz"
+    SHA1 "6da53b356e1915fc65a0338a28a33ccd1ca092dc"
 )
 
 # This declares the project (solution in terms of MSVC) we're working on,
